@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 09:28:35 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 14:16:17 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 16:16:06 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -85,6 +85,8 @@ void					ft_ls(t_args args, char *file_path)
 	get_files_in_folder(args, file_path, &files);
 	total = get_total(files);
 	sort_files(args, &files);
+	if (args.r)
+		lst_reverse(&files);
 	if (args.rec && !ft_strequ(".", file_path))
 		ft_printf("%s:\n", file_path);
 	if (args.l && total)
