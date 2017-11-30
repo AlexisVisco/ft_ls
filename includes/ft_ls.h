@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/27 09:46:07 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/29 21:06:32 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 11:34:57 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,6 +27,9 @@
 # include <stdlib.h>
 
 # include <stdio.h>
+
+# define MINOR(x) ((x) & 0xffffff)
+# define MAJOR(x) (((x) >> 24) & 0xff)
 
 typedef struct	s_args
 {
@@ -55,7 +58,7 @@ typedef struct	s_max_inf
 }				t_max_inf;
 
 
-void			ft_ls_rec(t_args args, char *file_path);
+void			ft_ls(t_args args, char *file_path);
 
 void			get_files_in_folder(t_args args, char *path_folder, t_list **l);
 void			sort_files(t_args args, t_list **files);

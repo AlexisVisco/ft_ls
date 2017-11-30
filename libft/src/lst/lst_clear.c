@@ -6,18 +6,18 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/26 11:02:15 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/29 10:03:46 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 09:29:07 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_list_clear(t_list **lst)
+void	lst_clear(t_list **lst)
 {
 	if (lst && *lst)
 	{
-		ft_list_clear(&(*lst)->next);
+		lst_clear(&(*lst)->next);
 		free(*lst);
 		*lst = NULL;
 	}

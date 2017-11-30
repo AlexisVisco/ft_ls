@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 10:39:37 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/29 19:32:13 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 10:21:44 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,7 +18,7 @@ static int	sort_alpha(void *f, void *s)
 {
 	t_file_inf *infa;
 	t_file_inf *infb;
-	
+
 	infa = (t_file_inf *)f;
 	infb = (t_file_inf *)s;
 	return (ft_strcmp(infa->file_name, infb->file_name) > 0);
@@ -33,9 +33,9 @@ static int	sort_time(void *f, void *s)
 
 	infa = (t_file_inf *)f;
 	infb = (t_file_inf *)s;
-	if(stat(infa->path, &fsa) < 0 || stat(infb->path, &fsb) < 0)
+	if (stat(infa->path, &fsa) < 0 || stat(infb->path, &fsb) < 0)
 		return (0);
-	return (fsa.st_mtime < fsb.st_mtime);
+	return (fsa.st_mtime > fsb.st_mtime);
 }
 
 void		sort_files(t_args args, t_list **files)

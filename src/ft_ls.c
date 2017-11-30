@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 09:28:35 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/29 21:19:17 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 11:17:43 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -18,57 +18,77 @@ static unsigned long	get_total(t_list *files)
 {
 	t_file_inf		*inf;
 	unsigned long	total;
-	
+	struct stat		fs;
+
 	total = 0;
 	while (files)
 	{
 		inf = (t_file_inf *)files->content;
-		struct stat		fs;
-		if(stat(inf->path, &fs) < 0 )
+		if (stat(inf->path, &fs) < 0)
 			continue ;
 		total += (unsigned long)fs.st_blocks;
 		files = files->next;
 	}
-	return total;
+	return (total);
 }
 
-void					ft_ls_rec(t_args args, char *file_path)
+static void				files_a(t_list **files, t_list **folders, t_args args)
 {
-	t_list		*folders;
-	t_list		*files;
 	t_file_inf	*inf;
 	t_max_inf	*maxi;
-	
+	t_list		**head;
+
+	maxi = fill_max(*files);
+	head = files;
+	while (*files)
+	{
+		inf = (t_file_inf *)(*files)->content;
+		if (inf->is_directory && args.rec)
+		{
+			lst_add(folders, lst_new(inf->path, sizeof(char) *
+			ft_strlen(inf->path)));
+		}
+		print_file(args, inf, maxi);
+		free((*files)->content);
+		files = &(*files)->next;
+	}
+	lst_clear(head);
+}
+
+static void				folders_a(t_list **folders, t_args args)
+{
+	t_list	**head;
+
+	head = folders;
+	while (*folders)
+	{
+		ft_ls(args, (char *)(*folders)->content);
+		free((*folders)->content);
+		folders = &(*folders)->next;
+	}
+	lst_clear(head);
+}
+
+void					ft_ls(t_args args, char *file_path)
+{
+	t_list			*folders;
+	t_list			*files;
+	unsigned long	total;
+	static char		first = 1;
+
 	files = NULL;
+	folders = NULL;
+	total = get_total(files);
+	if (args.rec && !first)
+		ft_putchar('\n');
+	first = 0;
 	get_files_in_folder(args, file_path, &files);
 	sort_files(args, &files);
 	if (args.rec && !ft_strequ(".", file_path))
 		ft_printf("%s:\n", file_path);
-	if (args.l)
-		printf("total %lu\n", get_total(files));
-	maxi = fill_max(files);
-	folders = NULL;
-	while (files)
-	{
-		inf = (t_file_inf *)files->content;
-		if (inf->is_directory && args.rec)
-		{
-			lst_push(&folders, lst_new(inf->path, sizeof(char) *
-			ft_strlen(inf->path)));
-		}
-		print_file(args, inf, maxi);
-		free(files->content);
-		files = files->next;
-	}
+	if (args.l && total)
+		ft_printf("total %i\n", (int)get_total(files));
+	files_a(&files, &folders, args);
 	if (args.rec)
-		ft_putchar('\n');
-	//lst_clear(&files);
-	if (args.rec)
-		while (folders)
-		{
-			ft_ls_rec(args, (char *)folders->content);
-			free(folders->content);
-			folders = folders->next;
-		}
-	//lst_clear(&folders);
+		folders_a(&folders, args);
 }

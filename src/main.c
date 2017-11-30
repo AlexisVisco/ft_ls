@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/27 09:47:15 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/29 21:21:49 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 11:08:59 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,7 +14,7 @@
 #include "libft.h"
 #include "ft_ls.h"
 
-void	set_default_args(t_args *args)
+void		set_default_args(t_args *args)
 {
 	args->l = 0;
 	args->a = 0;
@@ -23,61 +23,58 @@ void	set_default_args(t_args *args)
 	args->rec = 0;
 }
 
-void	debug_args(t_args arguments)
+static void	set_arg_from_letter(char c, t_args *a)
 {
-	ft_printf("-l: %i\n-a: %i\n-r: %i\n-t: %i\n-R: %i\n", arguments.l,
-	arguments.a, arguments.r, arguments.t, arguments.rec);
+	a->l = (c == 'l') ? 1 : a->l;
+	a->a = (c == 'a') ? 1 : a->a;
+	a->r = (c == 'r') ? 1 : a->r;
+	a->t = (c == 't') ? 1 : a->t;
+	a->rec = (c == 'R') ? 1 : a->rec;
 }
 
-void	set_arg_from_letter(char c, t_args *arguments)
-{
-	if (c == 'l')
-		arguments->l = 1;
-	else if (c == 'a')
-		arguments->a = 1;
-	else if (c == 'r')
-		arguments->r = 1;
-	else if (c == 't')
-		arguments->t = 1;
-	else if (c == 'R')
-		arguments->rec = 1;
-}
-
-void	parse_args(t_args *arguments, int n, char **args)
+static void	parse_args(t_args *argts, int n, char **args, t_list **f)
 {
 	int i;
 
-	if (n > 2) /** parse arg like ls -a -r -t **/
+	if (n >= 2)
 	{
 		i = 0;
 		while (++i < n)
-			if (args[i][0] == '-')
-				set_arg_from_letter(args[i][1], arguments);
-	}
-	else /** parse arg like ls -lar */
-	{
-		i = -1;
-		while (args[1][++i])
 		{
-			if (i == 0 && args[1][i] == '-')
-				continue ;
-			else if (i == 0 && args[1][i] != '-')
-				break ;
+			if (args[i][0] == '-')
+			{
+				while (*args[i])
+				{
+					set_arg_from_letter(*args[i], argts);
+					args[i]++;
+				}
+			}
 			else
-				set_arg_from_letter(args[1][i], arguments);
+				lst_push(f, lst_new(args[i], sizeof(char) *
+				ft_strlen(args[i])));
 		}
 	}
 }
 
-int		main(int n, char **args)
+int			main(int n, char **args)
 {
 	t_args	arguments;
 	t_list	*only_folders;
-	
+
 	only_folders = NULL;
 	set_default_args(&arguments);
 	if (n >= 2)
-		parse_args(&arguments, n, args);
-	ft_ls_rec(arguments, ".");
-	
+		parse_args(&arguments, n, args, &only_folders);
+	if (lst_size(only_folders) != 0)
+	{
+		while (only_folders)
+		{
+			ft_ls(arguments, (char *)only_folders->content);
+			free(only_folders->content);
+			only_folders = only_folders->next;
+		}
+		free(only_folders);
+	}
+	else
+		ft_ls(arguments, ".");
 }

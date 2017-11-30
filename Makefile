@@ -1,9 +1,5 @@
 
 C_FILES += \
-debug/printer.c \
-\
-main/main.c \
-\
 max/max.c \
 max/max_fn.c \
 \
@@ -11,9 +7,9 @@ construct_list.c \
 ft_ls.c \
 sorting.c \
 printer.c \
+main.c
 
-
-PROJECT = generated_test
+PROJECT = ft_ls
 NAME = $(PROJECT)
 CC = gcc -g
 CFLAGS += 
@@ -22,7 +18,7 @@ SRC_PATH = ./src/
 INC_PATH = ./includes/
 LIBFT_INCLUDES_PATH = ./libft/includes/
 OBJ_PATH = ./obj/
-OBJ_PATHS = main debug max
+OBJ_PATHS = debug max
 LIBFT_PATH = ./libft
 
 OBJ_SUB_PATHS = $(addprefix $(OBJ_PATH),$(OBJ_PATHS))
@@ -34,20 +30,23 @@ SRC = $(addprefix $(SRC_PATH),$(C_FILES))
 OBJ = $(addprefix $(OBJ_PATH),$(OBJ_NAME))
 INC = $(addprefix -I,$(INC_PATH))
 
-all: make_libft $(NAME)
+all: $(NAME)
 
 $(OBJ_PATH)%.o: $(SRC_PATH)/%.c
 	@mkdir -p $(OBJ_SUB_PATHS)
 	$(CC) $(CFLAGS) $(INC) -I $(LIBFT_INCLUDES_PATH) -o $@ -c $<
 
 $(NAME): $(OBJ)
+	make make_libft
 	$(CC) $(CFLAGS) $(INC) -I $(LIBFT_INCLUDES_PATH) -L$(LIBFT_PATH) -l$(LIBFT_BIN_NAME) $? -o $(NAME)
 
 clean:
-	/bin/rm -rf $(OBJ_PATH)
+	rm -rf $(OBJ_PATH)
+	@make -C libft/ clean
 
 fclean: clean
-	/bin/rm -rf $(NAME)
+	rm -rf $(NAME)
+	make -C libft/ fclean
 
 re: fclean all
 

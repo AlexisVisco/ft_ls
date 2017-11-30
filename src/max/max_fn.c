@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 13:53:10 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/29 14:54:08 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 11:49:08 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -23,24 +23,28 @@ int		max_link_user(int ref, t_file_inf *i, struct stat fs)
 
 int		max_file_size(int ref, t_file_inf *i, struct stat fs)
 {
-	(void)i;
-	return (ref < math_intlen(fs.st_size, 10)
-	? math_intlen(fs.st_size, 10) : -1);
+	int b;
+
+	b = (i->type == DT_CHR || i->type == DT_BLK);
+	return (ref < math_intlen(b ? fs.st_rdev : fs.st_size, 10)
+	? math_intlen(b ? fs.st_rdev : fs.st_size, 10) : -1);
 }
 
 int		max_user(int ref, t_file_inf *i, struct stat fs)
 {
-	struct passwd	*pw;
+	struct passwd *pw;
 
 	(void)i;
 	pw = getpwuid(fs.st_uid);
+	if (!pw)
+		return -1;
 	return (ref < (int)ft_strlen(pw->pw_name)
 	? (int)ft_strlen(pw->pw_name) : -1);
 }
 
 int		max_group(int ref, t_file_inf *i, struct stat fs)
 {
-	struct group 	*gr;
+	struct group *gr;
 
 	(void)i;
 	gr = getgrgid(fs.st_gid);
