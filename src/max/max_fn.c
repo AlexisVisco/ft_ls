@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 13:53:10 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 11:49:08 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 13:33:37 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,10 +24,11 @@ int		max_link_user(int ref, t_file_inf *i, struct stat fs)
 int		max_file_size(int ref, t_file_inf *i, struct stat fs)
 {
 	int b;
+	int s;
 
 	b = (i->type == DT_CHR || i->type == DT_BLK);
-	return (ref < math_intlen(b ? fs.st_rdev : fs.st_size, 10)
-	? math_intlen(b ? fs.st_rdev : fs.st_size, 10) : -1);
+	s = b ? fs.st_rdev : fs.st_size;
+	return (ref < math_intlen(s, 10) ? math_intlen(s, 10) : -1);
 }
 
 int		max_user(int ref, t_file_inf *i, struct stat fs)
@@ -37,7 +38,7 @@ int		max_user(int ref, t_file_inf *i, struct stat fs)
 	(void)i;
 	pw = getpwuid(fs.st_uid);
 	if (!pw)
-		return -1;
+		return (-1);
 	return (ref < (int)ft_strlen(pw->pw_name)
 	? (int)ft_strlen(pw->pw_name) : -1);
 }

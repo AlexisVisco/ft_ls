@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 11:32:42 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 11:52:37 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 14:10:16 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -30,12 +30,11 @@ static void		print_permissions(mode_t mode)
 
 static void		print_date(time_t *t)
 {
-	char	buf[50];
 	char	*date;
 	int		i;
 	int		len;
 
-	date = ctime_r(t, buf);
+	date = ctime(t);
 	i = 3;
 	len = ft_strlen(date) - 10;
 	while (++i <= len)
@@ -84,7 +83,7 @@ void			print_file(t_args args, t_file_inf *inf, t_max_inf *mi)
 	pw = getpwuid(fs.st_uid);
 	gr = getgrgid(fs.st_gid);
 	print_permissions(fs.st_mode);
-	ft_printf("  %*i %*s  %*s",
+	ft_printf("  %*i %*s  %*s ",
 		mi->link_user, fs.st_nlink,
 		mi->user, !pw ? "" : pw->pw_name,
 		mi->group, gr->gr_name);

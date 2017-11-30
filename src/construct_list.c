@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/27 10:20:50 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 11:26:32 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 13:48:07 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -27,7 +27,7 @@ void		get_files_in_folder(t_args args, char *path_folder, t_list **l)
 	DIR				*dir;
 	struct dirent	*entry;
 	t_file_inf		*file_info;
-	char			path[4096];
+	char			path[2048];
 
 	if (!(dir = opendir(path_folder)))
 		return ;
@@ -44,9 +44,8 @@ void		get_files_in_folder(t_args args, char *path_folder, t_list **l)
 			file_info->is_directory = file_info->file_name[0] == '.' ? 0 : 1;
 		if ((args.a && file_info->file_name[0] == '.') ||
 		(file_info->file_name[0] != '.'))
-		{
 			lst_add(l, lst_new(file_info, sizeof(t_file_inf)));
-		}
+		free(file_info);
 	}
 	closedir(dir);
 }

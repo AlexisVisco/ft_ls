@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/27 09:46:07 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 11:34:57 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/11/30 13:48:03 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,9 +25,6 @@
 # include <grp.h>
 # include <sys/types.h>
 # include <stdlib.h>
-
-# include <stdio.h>
-
 # define MINOR(x) ((x) & 0xffffff)
 # define MAJOR(x) (((x) >> 24) & 0xff)
 
@@ -42,21 +39,20 @@ typedef struct	s_args
 
 typedef struct	s_file_inf
 {
-	char		parent[4096];
-	char		path[4096];
-	char		file_name[4096];
+	char		parent[2048];
+	char		path[2048];
+	char		file_name[2048];
 	int			is_directory;
 	int			type;
 }				t_file_inf;
 
 typedef struct	s_max_inf
 {
-	size_t 		link_user;
-	size_t 		user;
-	size_t 		group;
-	size_t 		file_size;
+	size_t		link_user;
+	size_t		user;
+	size_t		group;
+	size_t		file_size;
 }				t_max_inf;
-
 
 void			ft_ls(t_args args, char *file_path);
 
