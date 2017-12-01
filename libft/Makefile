@@ -6,7 +6,7 @@
 #    By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+      #
 #                                                  #+#   #+    #+    #+#       #
 #    Created: 2017/11/17 14:07:28 by aviscogl     #+#   ##    ##    #+#        #
-#    Updated: 2017/11/29 09:40:10 by aviscogl    ###    #+. /#+    ###.fr      #
+#    Updated: 2017/12/01 10:36:35 by aviscogl    ###    #+. /#+    ###.fr      #
 #                                                          /                   #
 #                                                         /                    #
 # **************************************************************************** #
@@ -91,6 +91,7 @@ str/ft_strchr.c \
 str/ft_strclr.c \
 str/ft_strcmp.c \
 str/ft_strmatch.c \
+str/ft_strbasename.c \
 str/ft_strjoin_multiple.c \
 str/ft_strisdigit.c \
 str/ft_strcpy.c \

@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 09:28:35 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 16:16:06 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/01 11:06:57 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -70,7 +70,27 @@ static void				folders_a(t_list **folders, t_args args)
 	lst_clear(head);
 }
 
-void					ft_ls(t_args args, char *file_path)
+int						ft_ls_file(t_args args, char *file_path)
+{
+	struct stat	fs;
+	t_file_inf	*i;
+	t_max_inf	*m;
+
+	if (stat(file_path, &fs) < 0)
+		return (0);
+	i = (t_file_inf *)malloc(sizeof(t_file_inf));
+	m = get_default_max();
+	ft_strcpy(i->path, file_path);
+	ft_strcpy(i->file_name, ft_strbasename((const char*)file_path));
+	i->type = DT_REG;
+	print_file(args, i, m);
+	free(i);
+	free(m);
+	ft_putchar('\n');
+	return (1);
+}
+
+int						ft_ls(t_args args, char *path)
 {
 	t_list			*folders;
 	t_list			*files;
@@ -82,16 +102,17 @@ void					ft_ls(t_args args, char *file_path)
 	if (args.rec && !first)
 		ft_putchar('\n');
 	first = 0;
-	get_files_in_folder(args, file_path, &files);
+	if (!get_files_in_folder(args, path, &files))
+		return (0);
 	total = get_total(files);
 	sort_files(args, &files);
 	if (args.r)
 		lst_reverse(&files);
-	if (args.rec && !ft_strequ(".", file_path))
-		ft_printf("%s:\n", file_path);
+	ft_printf("%s:\n", path);
 	if (args.l && total)
 		ft_printf("total %i\n", total);
 	files_a(&files, &folders, args);
 	if (args.rec)
 		folders_a(&folders, args);
+	return (1);
 }

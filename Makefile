@@ -7,11 +7,12 @@ construct_list.c \
 ft_ls.c \
 sorting.c \
 printer.c \
-main.c
+main.c \
+errors.c \
 
 PROJECT = ft_ls
 NAME = $(PROJECT)
-CC = gcc -g
+CC = gcc -g -Werror -Wextra -Wall
 CFLAGS += 
 
 SRC_PATH = ./src/

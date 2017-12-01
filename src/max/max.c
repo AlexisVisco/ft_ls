@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 13:38:58 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 10:21:17 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/01 11:11:12 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -44,5 +44,17 @@ t_max_inf	*fill_max(t_list *lst)
 	inf->user = get_max(lst, max_user);
 	inf->file_size = get_max(lst, max_file_size);
 	inf->group = get_max(lst, max_group);
+	return (inf);
+}
+
+t_max_inf	*get_default_max(void)
+{
+	t_max_inf *inf;
+
+	inf = (t_max_inf *)malloc(sizeof(t_max_inf));
+	inf->file_size = 0;
+	inf->user = 0;
+	inf->link_user = 0;
+	inf->group = 0;
 	return (inf);
 }

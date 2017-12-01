@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/27 09:47:15 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 11:08:59 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/01 12:12:23 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -32,7 +32,7 @@ static void	set_arg_from_letter(char c, t_args *a)
 	a->rec = (c == 'R') ? 1 : a->rec;
 }
 
-static void	parse_args(t_args *argts, int n, char **args, t_list **f)
+static int	parse_args(t_args *argts, int n, char **args, t_list **f)
 {
 	int i;
 
@@ -43,10 +43,14 @@ static void	parse_args(t_args *argts, int n, char **args, t_list **f)
 		{
 			if (args[i][0] == '-')
 			{
-				while (*args[i])
+				while (*args[i]++)
 				{
+					if (ft_strrchr("-lartR", *args[i]) == NULL)
+					{
+						display_error(INVALID_ARG, &(args[i][0]));
+						return (0);
+					}
 					set_arg_from_letter(*args[i], argts);
-					args[i]++;
 				}
 			}
 			else
@@ -54,27 +58,33 @@ static void	parse_args(t_args *argts, int n, char **args, t_list **f)
 				ft_strlen(args[i])));
 		}
 	}
+	return (1);
 }
 
 int			main(int n, char **args)
 {
-	t_args	arguments;
+	t_args	params;
 	t_list	*only_folders;
 
 	only_folders = NULL;
-	set_default_args(&arguments);
+	set_default_args(&params);
 	if (n >= 2)
-		parse_args(&arguments, n, args, &only_folders);
+		if (!parse_args(&params, n, args, &only_folders))
+			return (0);
 	if (lst_size(only_folders) != 0)
 	{
 		while (only_folders)
 		{
-			ft_ls(arguments, (char *)only_folders->content);
+			if (!ft_ls(params, (char *)only_folders->content))
+				if (!ft_ls_file(params, (char *)only_folders->content))
+					display_error(NO_FILE_OR_FOLDER,
+					(char *)only_folders->content);
 			free(only_folders->content);
 			only_folders = only_folders->next;
 		}
 		free(only_folders);
 	}
 	else
-		ft_ls(arguments, ".");
+		ft_ls(params, ".");
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/27 10:20:50 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 13:48:07 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/01 11:02:56 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -22,7 +22,7 @@ static void	path_join(char *path, char *path_folder, char *file_path_folder)
 	ft_strcat(path, file_path_folder);
 }
 
-void		get_files_in_folder(t_args args, char *path_folder, t_list **l)
+int			get_files_in_folder(t_args args, char *path_folder, t_list **l)
 {
 	DIR				*dir;
 	struct dirent	*entry;
@@ -30,12 +30,11 @@ void		get_files_in_folder(t_args args, char *path_folder, t_list **l)
 	char			path[2048];
 
 	if (!(dir = opendir(path_folder)))
-		return ;
+		return (0);
 	while ((entry = readdir(dir)) != NULL)
 	{
 		file_info = (t_file_inf *)malloc(sizeof(t_file_inf));
 		path_join((char *)path, path_folder, entry->d_name);
-		ft_strcpy(file_info->parent, path_folder);
 		ft_strcpy(file_info->path, path);
 		ft_strcpy(file_info->file_name, entry->d_name);
 		file_info->is_directory = 0;
@@ -48,4 +47,5 @@ void		get_files_in_folder(t_args args, char *path_folder, t_list **l)
 		free(file_info);
 	}
 	closedir(dir);
+	return (1);
 }

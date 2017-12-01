@@ -1,39 +1,25 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   lst_sort.c                                       .::    .:/ .      .::   */
+/*   errors.c                                         .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/11/26 11:33:52 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/01 11:12:58 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Created: 2017/12/01 09:25:19 by aviscogl     #+#   ##    ##    #+#       */
+/*   Updated: 2017/12/01 11:10:57 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_ls.h"
+#include "f_colors.h"
 
-void	lst_sort(t_list **lst, int (*comparator)())
+void	display_error(t_error_type err, char *arg)
 {
-	int		changed;
-	t_list	*current;
-
-	if (!lst || !*lst || !comparator)
-		return ;
-	changed = 1;
-	while (changed)
-	{
-		changed = 0;
-		current = *lst;
-		while (current->next)
-		{
-			if (comparator(current->content, current->next->content) > 0)
-			{
-				lst_swap(current, current->next);
-				changed = 1;
-			}
-			current = current->next;
-		}
-	}
+	if (err == NO_FILE_OR_FOLDER)
+		ft_printf("%sls: %s: No such file or directory.\n%s",
+				L_RED, arg, RESET_ALL);
+	else if (err == INVALID_ARG)
+		ft_printf("%sls: %s: Argument is invalid.\n%s",
+				L_RED, arg, RESET_ALL);
 }
-

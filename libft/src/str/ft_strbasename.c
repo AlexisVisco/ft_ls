@@ -1,39 +1,22 @@
 /* ************************************************************************** */
 /*                                                          LE - /            */
 /*                                                              /             */
-/*   lst_sort.c                                       .::    .:/ .      .::   */
+/*   ft_strbasename.c                                 .::    .:/ .      .::   */
 /*                                                 +:+:+   +:    +:  +:+:+    */
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
-/*   Created: 2017/11/26 11:33:52 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/01 11:12:58 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Created: 2017/12/01 10:33:21 by aviscogl     #+#   ##    ##    #+#       */
+/*   Updated: 2017/12/01 11:12:05 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	lst_sort(t_list **lst, int (*comparator)())
+char	*ft_strbasename(const char *filename)
 {
-	int		changed;
-	t_list	*current;
+	char *p;
 
-	if (!lst || !*lst || !comparator)
-		return ;
-	changed = 1;
-	while (changed)
-	{
-		changed = 0;
-		current = *lst;
-		while (current->next)
-		{
-			if (comparator(current->content, current->next->content) > 0)
-			{
-				lst_swap(current, current->next);
-				changed = 1;
-			}
-			current = current->next;
-		}
-	}
+	p = ft_strrchr(filename, '/');
+	return (p ? p + 1 : (char *)filename);
 }
-
