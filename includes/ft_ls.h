@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/27 09:46:07 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/01 10:16:46 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/01 13:53:11 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -28,10 +28,10 @@
 # define MINOR(x) ((x) & 0xffffff)
 # define MAJOR(x) (((x) >> 24) & 0xff)
 
-typedef enum	u_error_type 
+typedef enum	u_error_type
 {
-				NO_FILE_OR_FOLDER,
-				INVALID_ARG
+	NO_FILE_OR_FOLDER,
+	INVALID_ARG
 }				t_error_type;
 
 typedef struct	s_args
@@ -68,7 +68,7 @@ void			print_file_info(t_list *content);
 void			print_file(t_args args, t_file_inf *inf, t_max_inf *mi);
 void			sort_files(t_args args, t_list **l);
 t_max_inf		*fill_max(t_list *lst);
-t_max_inf 		*get_default_max();
+t_max_inf		*get_default_max(void);
 int				max_link_user(int ref, t_file_inf *i, struct stat fs);
 int				max_file_size(int ref, t_file_inf *i, struct stat fs);
 int				max_user(int ref, t_file_inf *i, struct stat fs);
