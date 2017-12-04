@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/27 09:46:07 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/01 13:53:11 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/04 10:15:59 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -21,6 +21,8 @@
 # include <sys/stat.h>
 # include <sys/time.h>
 # include <pwd.h>
+# include <sys/xattr.h>
+# include <sys/acl.h>
 # include <time.h>
 # include <grp.h>
 # include <sys/types.h>
@@ -28,7 +30,7 @@
 # define MINOR(x) ((x) & 0xffffff)
 # define MAJOR(x) (((x) >> 24) & 0xff)
 
-typedef enum	u_error_type
+typedef enum	e_error_type
 {
 	NO_FILE_OR_FOLDER,
 	INVALID_ARG
@@ -61,6 +63,7 @@ typedef struct	s_max_inf
 
 int				ft_ls(t_args args, char *file_path);
 int				ft_ls_file(t_args args, char *file_path);
+int				get_stat(t_file_inf *inf, struct stat *st);
 void			display_error(t_error_type err, char *arg);
 int				get_files_in_folder(t_args args, char *path_folder, t_list **l);
 void			sort_files(t_args args, t_list **files);

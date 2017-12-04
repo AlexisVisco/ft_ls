@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 11:32:42 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 14:10:16 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/04 10:18:02 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -14,8 +14,11 @@
 #include "libft.h"
 #include "ft_ls.h"
 
-static void		print_permissions(mode_t mode)
+static void		print_permissions(mode_t mode, char *fpath)
 {
+	int		xattrs;
+	acl_t	acl;
+
 	ft_putchar((S_ISDIR(mode)) ? 'd' : '-');
 	ft_putchar((mode & S_IRUSR) ? 'r' : '-');
 	ft_putchar((mode & S_IWUSR) ? 'w' : '-');
@@ -26,6 +29,17 @@ static void		print_permissions(mode_t mode)
 	ft_putchar((mode & S_IROTH) ? 'r' : '-');
 	ft_putchar((mode & S_IWOTH) ? 'w' : '-');
 	ft_putchar((mode & S_IXOTH) ? 'x' : '-');
+	xattrs = (int)listxattr(fpath, NULL, 1, XATTR_NOFOLLOW);
+	if (xattrs > 0)
+		ft_putchar('@');
+	else
+	{
+		acl = acl_get_file(fpath, ACL_TYPE_EXTENDED);
+		if (acl != NULL)
+			ft_putchar('+');
+		else
+			ft_putchar(' ');
+	}
 }
 
 static void		print_date(time_t *t)
@@ -78,11 +92,11 @@ void			print_file(t_args args, t_file_inf *inf, t_max_inf *mi)
 		ft_printf("%s\n", inf->file_name);
 		return ;
 	}
-	if (stat(inf->path, &fs) < 0)
+	if (get_stat(inf, &fs) < 0)
 		return ;
 	pw = getpwuid(fs.st_uid);
 	gr = getgrgid(fs.st_gid);
-	print_permissions(fs.st_mode);
+	print_permissions(fs.st_mode, inf->path);
 	ft_printf("  %*i %*s  %*s ",
 		mi->link_user, fs.st_nlink,
 		mi->user, !pw ? "" : pw->pw_name,

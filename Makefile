@@ -1,4 +1,3 @@
-
 C_FILES += \
 max/max.c \
 max/max_fn.c \
@@ -64,5 +63,4 @@ make_libft:
 	make -C libft/ 
 
 .PHONY: clean fclean re download_libft update_libft make_libft
-
 

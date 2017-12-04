@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 09:28:35 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/01 11:06:57 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/04 10:06:00 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -24,7 +24,7 @@ static unsigned long	get_total(t_list *files)
 	while (files)
 	{
 		inf = (t_file_inf *)files->content;
-		if (stat(inf->path, &fs) < 0)
+		if (get_stat(inf, &fs) < 0)
 			continue ;
 		total += (unsigned long)fs.st_blocks;
 		files = files->next;
@@ -76,13 +76,13 @@ int						ft_ls_file(t_args args, char *file_path)
 	t_file_inf	*i;
 	t_max_inf	*m;
 
-	if (stat(file_path, &fs) < 0)
-		return (0);
 	i = (t_file_inf *)malloc(sizeof(t_file_inf));
 	m = get_default_max();
 	ft_strcpy(i->path, file_path);
 	ft_strcpy(i->file_name, ft_strbasename((const char*)file_path));
 	i->type = DT_REG;
+	if (get_stat(i, &fs) < 0)
+		return (0);
 	print_file(args, i, m);
 	free(i);
 	free(m);
@@ -108,7 +108,8 @@ int						ft_ls(t_args args, char *path)
 	sort_files(args, &files);
 	if (args.r)
 		lst_reverse(&files);
-	ft_printf("%s:\n", path);
+	if (args.rec && !first)
+		ft_printf("%s:\n", path);
 	if (args.l && total)
 		ft_printf("total %i\n", total);
 	files_a(&files, &folders, args);

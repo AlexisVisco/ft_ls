@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 10:39:37 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/11/30 16:15:55 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/04 10:02:12 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -33,7 +33,7 @@ static int	sort_time(void *f, void *s)
 
 	infa = (t_file_inf *)f;
 	infb = (t_file_inf *)s;
-	if (stat(infa->path, &fsa) < 0 || stat(infb->path, &fsb) < 0)
+	if (get_stat(infa, &fsa) < 0 || get_stat(infb, &fsb) < 0)
 		return (0);
 	return (fsa.st_mtime < fsb.st_mtime);
 }

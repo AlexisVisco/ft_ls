@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/27 09:47:15 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/01 12:12:23 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/04 10:20:12 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -59,6 +59,12 @@ static int	parse_args(t_args *argts, int n, char **args, t_list **f)
 		}
 	}
 	return (1);
+}
+
+int			get_stat(t_file_inf *inf, struct stat *st)
+{
+	return (inf->type == DT_LNK) ? lstat(inf->path, st)
+	: stat(inf->path, st);
 }
 
 int			main(int n, char **args)

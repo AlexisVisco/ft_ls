@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 13:38:58 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/01 11:11:12 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/04 10:03:22 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -25,7 +25,7 @@ int			get_max(t_list *lst, int (*cmp)(int, t_file_inf *, struct stat))
 	while (lst && lst->content)
 	{
 		i = (t_file_inf *)lst->content;
-		if (stat(i->path, &fs) < 0)
+		if (get_stat(i, &fs) < 0)
 			return (0);
 		cmp_res = cmp(max, i, fs);
 		if (cmp_res != -1)
