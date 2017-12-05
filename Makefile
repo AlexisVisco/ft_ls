@@ -18,7 +18,7 @@ SRC_PATH = ./src/
 INC_PATH = ./includes/
 LIBFT_INCLUDES_PATH = ./libft/includes/
 OBJ_PATH = ./obj/
-OBJ_PATHS = debug max
+OBJ_PATHS = max
 LIBFT_PATH = ./libft
 
 OBJ_SUB_PATHS = $(addprefix $(OBJ_PATH),$(OBJ_PATHS))

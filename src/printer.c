@@ -6,7 +6,7 @@
 /*   By: aviscogl <aviscogl@student.le-101.fr>      +:+   +:    +:    +:+     */
 /*                                                 #+#   #+    #+    #+#      */
 /*   Created: 2017/11/29 11:32:42 by aviscogl     #+#   ##    ##    #+#       */
-/*   Updated: 2017/12/04 10:18:02 by aviscogl    ###    #+. /#+    ###.fr     */
+/*   Updated: 2017/12/05 09:34:03 by aviscogl    ###    #+. /#+    ###.fr     */
 /*                                                         /                  */
 /*                                                        /                   */
 /* ************************************************************************** */
@@ -97,7 +97,7 @@ void			print_file(t_args args, t_file_inf *inf, t_max_inf *mi)
 	pw = getpwuid(fs.st_uid);
 	gr = getgrgid(fs.st_gid);
 	print_permissions(fs.st_mode, inf->path);
-	ft_printf("  %*i %*s  %*s ",
+	ft_printf(" %*i %*s  %*s ",
 		mi->link_user, fs.st_nlink,
 		mi->user, !pw ? "" : pw->pw_name,
 		mi->group, gr->gr_name);
